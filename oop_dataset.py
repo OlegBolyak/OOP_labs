@@ -36,7 +36,7 @@ class Salary:
     def salary_sorted(self, sort:bool):
         try:
             sorted_dataset=self.dataset.sort_values(by='Salary Range', ascending=sort)
-            return f"{sorted_dataset}"
+            return sorted_dataset
         except TypeError:
             return None
 class Group:
@@ -80,11 +80,23 @@ ds=CSV("Job opportunities.csv").open()
 memory=BaseInf(ds).memory()
 skip_values=BaseInf(ds).skip_values()
 types_columns=BaseInf(ds).types_columns()
+print(f"пам'ять, яку займає датасет: \n{memory}")
+print(f"пропущені значення:\n{skip_values}")
+print(f"типи стовпців:\n{types_columns}")
 
 s=Salary(ds).salary_sorted(False)
+print(f'----------вакансії відсортовані по зарплаті: \n{s}')
+# Вивести 5 вакансій з найвищою зарплатою.
+print(f"----------5 вакансій з найвищою зарплатою \n{s.head(5)}")
+# Визначити, які посади є найбільш високооплачуваними
+top=s[s['Salary Range']==s['Salary Range'].max()]
+print(f"----------посади які найбільш високооплачувані \n{top}")
+
 industry=Vacation(ds).search_on_industry('Cloud Computing')
 level=Vacation(industry).level('Senior')
 city=Vacation(level).city('Manchester')
+print(city)
+
 gr=Group(ds).group_size('Industry')
 avr=Group(ds).avarage_salary()
 categories=Group(avr).categories()
@@ -93,6 +105,7 @@ print(f"============кількість вакансій:\n{gr}")
 print(f"============середня зарплата за галузями:\n{avr[['Industry','avarage salary']]}")
 max_row = avr.loc[avr['avarage salary'].idxmax()]
 print(f"============галузь з найвищою зарплатою:\n{max_row[['Industry', 'avarage salary']]}")
+
 year=Year(categories).add_col_year() #фінальний датасет (додані нові стовпці)
 year_activity=Year(year).year_activity()
 print(year_activity)

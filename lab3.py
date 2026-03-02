@@ -1,11 +1,15 @@
 import pandas as pd
 ds=pd.read_csv("Job opportunities.csv")
+first5=ds.head(5)
+last5=ds.tail(5)
+print(f"перші 5 рядків:\n{first5}")
+print(f"останні 5 рядків:\n{last5}")
 rows,columns=ds.shape
+print(f"====Job opportunities.csv====\n{rows} rows, {columns} columns")
 memory=ds.memory_usage(deep="True").sum()
 columns_types=ds.dtypes
 skip_val=ds.isnull()
 sum_skip_val=ds.isnull().sum()
-print(f"====Job opportunities.csv====\n{rows} rows, {columns} columns")
 print(f"file memory: {memory/1024:.2f} kBytes")
 #------------2-----------
 # Переглянути типи даних усіх стовпців.
